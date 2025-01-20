@@ -1,8 +1,9 @@
-import Form from "./components/Form";
+import { Outlet } from "react-router-dom";
+
 function App() {
   return (
     <div className="bg-zinc-900 w-screen h-screen">
-      <Form />
+      <Outlet />
     </div>
   );
 }

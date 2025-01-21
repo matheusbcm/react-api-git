@@ -5,7 +5,7 @@ type SearchProps = {
   loadUser: (userName: string) => Promise<void>;
 };
 
-function Search(loadUser: SearchProps) {
+function Search({ loadUser }: SearchProps) {
   const [userName, setUserName] = useState("");
   return (
     <div>
@@ -17,7 +17,7 @@ function Search(loadUser: SearchProps) {
           placeholder="Search"
           onChange={(e) => setUserName(e.target.value)}
         />
-        <button>
+        <button onClick={() => loadUser(userName)}>
           <BsSearch />
         </button>
       </div>

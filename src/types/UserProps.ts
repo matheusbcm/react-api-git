@@ -1,4 +1,4 @@
-export type User = {
+export type UserProps = {
   login: string;
   avatar_url: string;
   location: string;

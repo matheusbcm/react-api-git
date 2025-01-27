@@ -2,26 +2,35 @@ import Search from "../components/Search";
 import { UserProps } from "../types/UserProps";
 import { useState } from "react";
 import User from "../components/User";
+import NoUser from "../components/NoUser";
 
 const Home = () => {
   const [user, setUser] = useState<UserProps | null>(null);
+  const [error, setError] = useState<number | null | boolean>(null);
 
   const loadUser = async (userName: string) => {
     const response = await fetch(`https://api.github.com/users/${userName}`);
 
-    const data = await response.json();
+    if (response.status === 404) {
+      setUser(null);
+      setError(true);
+      return;
+      // console.log(error);
+    }
 
+    const data = await response.json();
+    console.log(data);
     const { login, avatar_url, location, followers, following } = data;
 
     const userData: UserProps = {
-      login,
-      avatar_url,
-      location,
-      followers,
-      following,
+      login: login,
+      avatar_url: avatar_url,
+      location: location,
+      followers: followers,
+      following: following,
     };
+
     setUser(userData);
-    // console.log(user);
   };
 
   return (
@@ -33,9 +42,8 @@ const Home = () => {
       >
         <Search loadUser={loadUser} />
       </form>
-      <div className="bg-white w-80 h-80 mx-auto rounded-lg">
-        {user && <User {...user} />}
-      </div>
+      <div>{user ? <User user={user} /> : error && <NoUser />}</div>
+      {/* <div>{user ? <User user={user} /> : <NoUser />}</div> */}
     </div>
   );
 };
